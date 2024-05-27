@@ -1,0 +1,75 @@
+syntax = "proto3";
+
+package alert;
+option go_package = "../alert-checker/internal/model";
+
+import "google/protobuf/timestamp.proto";
+
+enum Condition {
+  CONDITION_UNSPECIFIED = 0;
+  PRICE_ABOVE = 1;
+  PRICE_BELOW = 2;
+  PRICE_EQUAL = 3;
+  PRICE_PERCENT_CHANGE_ABOVE = 4;
+  PRICE_PERCENT_CHANGE_BELOW = 5;
+}
+
+message Alert {
+  string id = 1;
+  string user_id = 2;
+  string symbol = 3;
+  float value = 4;
+  Condition condition = 5;
+  Base base = 6;
+}
+
+message Base {
+  google.protobuf.Timestamp created_at = 1;
+  google.protobuf.Timestamp updated_at = 2;
+}
+
+service AlertService {
+  rpc CreateAlert(CreateAlertRequest) returns (CreateAlertResponse);
+  rpc GetAlert(GetAlertRequest) returns (GetAlertResponse);
+  rpc UpdateAlert(UpdateAlertRequest) returns (UpdateAlertResponse);
+  rpc DeleteAlert(DeleteAlertRequest) returns (DeleteAlertResponse);
+}
+
+message CreateAlertRequest {
+  string user_id = 1;
+  string symbol = 2;
+  float price = 3;
+  Condition condition = 4;
+}
+
+message CreateAlertResponse {
+  Alert alert = 1;
+}
+
+message GetAlertRequest {
+  string id = 1;
+}
+
+message GetAlertResponse {
+  Alert alert = 1;
+}
+
+message UpdateAlertRequest {
+  string id = 1;
+  string user_id = 2;
+  string symbol = 3;
+  float price = 4;
+  Condition condition = 5;
+}
+
+message UpdateAlertResponse {
+  Alert alert = 1;
+}
+
+message DeleteAlertRequest {
+  string id = 1;
+}
+
+message DeleteAlertResponse {
+  bool success = 1;
+}
