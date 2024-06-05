@@ -12,6 +12,8 @@ enum Condition {
   PRICE_EQUAL = 3;
   PRICE_PERCENT_CHANGE_ABOVE = 4;
   PRICE_PERCENT_CHANGE_BELOW = 5;
+  PRICE_UP = 6;
+  PRICE_DOWN = 7;
 }
 
 message Alert {
